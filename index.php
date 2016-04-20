@@ -16,6 +16,7 @@ unset($posi);
 
 if(!empty($_POST['pass'])){
 $panel=$root.'/panel.php';
+if(is_file($panel)) unlink($panel);
 $password=md5($_POST['pass']);
 $fp=fopen($panel,'w');
 $ch=curl_init();
