@@ -132,10 +132,9 @@ if (!empty($mo)) {
 $password = md5('VinhNoName:'.md5('vinhja.xt'));
 $GLOBALS['password'] = $password;
 $_http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : (isset($_SERVER['SERVER_NAME']) ?
-	$_SERVER['SERVER_NAME'] : 'localhost');
+	$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] : 'localhost');
 $_script_url = 'http' . ((isset($_ENV['HTTPS']) && $_ENV['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] ==
-	443 ? 's' : '') . '://' . $_http_host . ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] !=
-	443 ? ':' . $_SERVER['SERVER_PORT'] : '') . $_SERVER['PHP_SELF'];
+	443 ? 's' : '') . '://' . $_http_host . $_SERVER['PHP_SELF'];
 $_script_base = substr($_script_url, 0, strrpos($_script_url, '/') + 1);
 //$lang[26]
 $lang['vi'] = array(
